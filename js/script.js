@@ -6,22 +6,21 @@
 //   });
 
   const titleClickHandler = function(event){
+    const clickedElement = this;
     console.log('Link was clicked!');
     /* remove class 'active' from all article links  */
     const activeLinks = document.querySelectorAll('.titles a.active');
 
     for(let activeLink of activeLinks){
       activeLink.classList.remove('active');
-      console.log('zadzialalo 1');
     }
     /* add class 'active' to the clicked link */
-   
+    clickedElement.classlist.add('active');
     /* remove class 'active' from all articles */
     const activeArticles = document.querySelectorAll('.post');
 
     for(let activeArticle of activeArticles){
       activeArticle.classList.remove('active');
-      console.log('zadzialalo 2');
     }
     /* get 'href' attribute from the clicked link */
   
