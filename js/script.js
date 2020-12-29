@@ -28,9 +28,9 @@ const titleClickHandler = function(event){
     activeArticle.classList.remove('active');
   }
   /* DONE get 'href' attribute from the clicked link */
-  const href = clickedElement.getAttribute('href');
+  const articleSelector = clickedElement.getAttribute('href');
   /* DONE find the correct article using the selector (value of 'href' attribute) */
-  const currentArticle = document.querySelector(href);
+  const currentArticle = document.querySelector(articleSelector);
   /* DONE add class 'active' to the correct article */
   currentArticle.classList.add('active');
 }
@@ -72,16 +72,18 @@ generateTitleLinks();
 
 function generateTags(){
   /* find all articles */
-  const tagList = document.querySelector(optTitleTagSelector)
-  console.log(tagList);
+  const articles = document.querySelectorAll(optArticleSelector);
+  console.log(articles);
   /* START LOOP: for every article: */
-
+  for(let article of articles) {
     /* find tags wrapper */
-
+    const tagWrapper = article.querySelector(optTitleTagSelector);
+    console.log(tagWrapper);
     /* make html variable with empty string */
-
+    let html = '';
     /* get tags from data-tags attribute */
-
+    const articleTags = article.getAttribute('data-tags')
+    console.log(articleTags);
     /* split tags into array */
 
     /* START LOOP: for each tag */
@@ -95,5 +97,6 @@ function generateTags(){
     /* insert HTML of all the links into the tags wrapper */
 
   /* END LOOP: for every article: */
+  }
 }
 generateTags();
