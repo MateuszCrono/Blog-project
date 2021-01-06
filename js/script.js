@@ -70,6 +70,33 @@ function generateTitleLinks(customSelector = " ") {
   }
 }
 
+
+function calculateTagsParams(tags) {
+  const params = {
+    max: 0,
+    min: 999999,
+  }
+  for(let tag in tags){
+
+    if (tags[tag] > params.max){
+      params.max = tags[tag];
+    }
+    if (tags[tag] < params.min){
+    params.min = tags[tag];
+    }
+  }
+  return params;
+}
+function calculateTagClass(count, params){
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
+
+  return optCloudClassPrefix + classNumber;
+}
+
+
 function generateTags() {
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
