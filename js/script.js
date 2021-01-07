@@ -157,7 +157,7 @@ function generateTags() {
     tagWrapper.innerHTML = html;
   }
   /* [NEW] find list of tags in right column */
-  const tagList = document.querySelector(".tags");
+  const tagList = document.querySelector(".sidebar .tags");
 
   const tagsParams = calculateTagsParams(allTags);
   /* [NEW]create variable for all links HTML code */
