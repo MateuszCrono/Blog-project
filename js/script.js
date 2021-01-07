@@ -35,7 +35,6 @@ const titleClickHandler = function (event) {
 
 // }
 function generateTitleLinks(customSelector = " ") {
-
   const titleList = document.querySelector(optTitleListSelector);
   /* remove contents of titleList */
   titleList.innerHTML = "";
@@ -95,6 +94,30 @@ function calculateTagClass(count, params) {
   return optCloudClassPrefix + classNumber;
 }
 
+function calculateAuthorsParams(authors) {
+  const paramsa = {
+    max: 0,
+    min: 999999,
+  };
+  for (let author in authors) {
+    if (authors[author] > paramsa.max) {
+      paramsa.max = authors[author];
+    }
+    if (authors[author] < paramsa.max) {
+      paramsa.min = authors[author];
+    }
+  }
+  return paramsa;
+}
+function calculateAuthorClass(count, params) {
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor(percentage * (optCloudClassCount - 1) + 1);
+
+  return optCloudClassPrefix + classNumber;
+}
+
 function generateTags() {
   /* [NEW] create a new variable allTags with an empty object */
   let allTags = {};
@@ -122,33 +145,39 @@ function generateTags() {
 
       /* add generated code to html variable */
       html = html + linkHTML;
-        /* [NEW] check if this link is NOT already in allTags */
-        if(!allTags.hasOwnProperty(tag)) {
-          /* [NEW] add tag to allTags object */
-          allTags[tag] = 1;
-        } else {
-          allTags[tag]++;
-        }
+      /* [NEW] check if this link is NOT already in allTags */
+      if (!allTags.hasOwnProperty(tag)) {
+        /* [NEW] add tag to allTags object */
+        allTags[tag] = 1;
+      } else {
+        allTags[tag]++;
+      }
       /* END LOOP: for each tag */
     }
-    tagWrapper.innerHTML=html;
+    tagWrapper.innerHTML = html;
   }
   /* [NEW] find list of tags in right column */
-  const tagList = document.querySelector('.tags');
+  const tagList = document.querySelector(".tags");
 
   const tagsParams = calculateTagsParams(allTags);
   /* [NEW]create variable for all links HTML code */
-  let allTagsHTML = '';
+  let allTagsHTML = "";
   /* [NEW] START LOOP: for each tag in all Tags: */
-  for(let tag in allTags) {
+  for (let tag in allTags) {
     /* [NEW] generate code of a link and add it to allTagsHTML */
-    const tagLinkHTML = '<li class=" ' + calculateTagClass(allTags[tag], tagsParams) + '"><a href="#tag-' + tag + '">' + tag + '</a></li>';
-    allTagsHTML += tagLinkHTML
+    const tagLinkHTML =
+      '<li class=" ' +
+      calculateTagClass(allTags[tag], tagsParams) +
+      '"><a href="#tag-' +
+      tag +
+      '">' +
+      tag +
+      "</a></li>";
+    allTagsHTML += tagLinkHTML;
     /* [NEW] END LOOP: for each tag in allTags: */
   }
   /* [NEW] add html from allTags to tagList */
   tagList.innerHTML = allTagsHTML;
-
 }
 
 generateTags();
@@ -163,19 +192,19 @@ function tagClickHandler(event) {
   //   /* make a new constant "tag" and extract tag from the "href" constant */
   const tag = href.replace("#tag-", "");
   //   /* find all tag links with class active */
-  const activetags = document.querySelectorAll('a.active[href^="#tag-"]');
+  const activeTags = document.querySelectorAll('a.active[href^="#tag-"]');
   //   /* START LOOP: for each active tag link */
-  for (let activetag of activetags) {
+  for (let activeTag of activeTags) {
     //     /* remove class active */
-    activetag.classList.remove("active");
+    activeTag.classList.remove("active");
     //   /* END LOOP: for each active tag link */
   }
   //   /* find all tag links with "href" attribute equal to the "href" constant */
   const foundTagLinks = document.querySelectorAll('a[href="' + href + '"]');
   //   /* START LOOP: for each found tag link */
-  for (let foundtaglink of foundTagLinks) {
+  for (let foundtagLink of foundTagLinks) {
     //     /* add class active */
-    foundtaglink.classList.add("active");
+    foundtagLink.classList.add("active");
     //   /* END LOOP: for each found tag link */
   }
   //   /* execute function "generateTitleLinks" with article selector as argument */
@@ -204,21 +233,24 @@ function generateAuthors() {
     /* find tags wrapper */
     const authorWrapper = article.querySelector(optArticleAuthorSelector);
     /* make html variable with empty string */
-    let html = " ";
-    // get tags from data-tags attribute //
-    const tag = article.getAttribute("data-author");
+    // let html = " ";
+    // get tags from data-author attribute //
+    const authorTag = article.getAttribute("data-author");
     // generate html of the link //
-    const linkHTML =
-      '<li><a href="#tag-author' + tag + '"><span>' + tag + "</span></a></li>";
+    const authorHTML =
+      '<li><a href="#tag-author' +
+      authorTag +
+      '"><span>' +
+      authorTag +
+      "</span></a></li>";
     /* add generated code to html variable */
-    html = html + linkHTML;
+    // html = html + authorHTML;
     // End LOOP //
-    authorWrapper.innerHTML = html;
+    authorWrapper.innerHTML = authorHTML;
   }
 }
 
 generateAuthors();
-console.log(generateAuthors);
 
 function authorClickHandler(event) {
   /* prevent default action for this event */
@@ -228,7 +260,7 @@ function authorClickHandler(event) {
   /* make a new constant "href" and read the attribute "href" of the clicked element */
   const href = clickedElement.getAttribute("href");
   /* make a new constant "tag" and extract tag from the "href" constant */
-  const tag = href.replace("#tag-author", "#");
+  const tag = href.replace("#tag-author", " ");
   /* find all tag links with class active */
   const activeLinks = document.querySelectorAll(
     'a.active[href^="#tag-author"]'
@@ -248,10 +280,8 @@ function authorClickHandler(event) {
     /* END LOOP: for each found tag link */
   }
   /* execute function "generateTitleLinks" with article selector as argument */
-  generateTitleLinks('[data-tags~="' + tag + '"]');
+  generateTitleLinks('[data-author="' + tag + '"]');
 }
-
-
 
 function addClickListenersToAuthors() {
   /* find all links to tags */

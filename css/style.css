@@ -28,7 +28,7 @@ body { background: #fff; font-family: "Source Sans Pro", sans-serif; color: #444
 
 .list .active { font-weight: bold; }
 
-.list-horizontal li { display: inline-block; }
+.list-horizontal li { display: inline-block; margin-right : 5px; }
 
 /* Authors */
 .authors li { margin-bottom: 12px; }
@@ -44,6 +44,3 @@ body { background: #fff; font-family: "Source Sans Pro", sans-serif; color: #444
 
 .post-tags p { margin: 0 10px 0 0; }
 
-.data-* {
-  padding : 5px;
-}
