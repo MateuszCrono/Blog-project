@@ -215,15 +215,21 @@
         </main>
         </div>
     </div>
+     <script id="template-author-link" type="text/x-handlebars-template">
+    <a href="#tag-author{{ id }}"><span>{{ title }}</span></a>
+  </script>
+   <script id="template-tag-link" type="text/x-handlebars-template">
+    <li><a href="#tag-{{ id }}"><span>{{ title }}</span></a></li>
+  </script>
     <script id="template-tag-cloud-link" type="text/x-handlebars-template">
-      {{#each tags}}
-      <li class={{ className }}><a href="#{{ tag }}"> <span>{{ tag }} ({{ count}}) </span></a></li>
-      {{/each}}
+       {{#each tags}}
+      <li><a class="{{ className }}" href="#tag-{{ tag }}">{{ tag }} ( {{ count }} )</a></li>
+    {{/each}}
     </script>
     <script id="template-author-cloud-link" type="text/x-handlebars-template">
       {{#each authors}}
-      <li class={{ className }}><a href="#{{ author }}"><span>{{ author }} ({{ count }}) </span></a></li>
-      {{/each}}
+      <li><a href="#tag-author{{ author }}">{{ author }} ( {{ count }} )</a></li>
+    {{/each}}
     </script>
     <script id="template-article-link" type="text/x-handlebars-template">
       <li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
